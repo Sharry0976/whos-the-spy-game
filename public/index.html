@@ -1,0 +1,162 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Who's the Spy</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="container">
+    <h1>Who's the Spy?</h1>
+
+    <div id="lobby">
+      <button id="createBtn">Create Room</button>
+      <input id="roomCode" placeholder="Enter Room Code" />
+      <input id="playerName" placeholder="Your Name" value="Player" />
+      <button id="joinBtn">Join Room</button>
+    </div>
+
+    <div id="game" style="display:none">
+      <div id="info">
+        <p id="status">Waiting for players...</p>
+        <p id="yourItem" style="font-size: 1.3em; margin: 15px 0; min-height: 60px;"></p>
+        <div id="players"></div>
+        <div id="scores"></div>
+      </div>
+
+      <div id="chatArea">
+        <div id="messages"></div>
+        <input id="message" placeholder="Describe your item..." />
+        <button id="send">Send</button>
+      </div>
+
+      <div id="voting" style="display:none; margin: 20px 0;">
+        <h3 style="color: #e74c3c;">🕵️‍♂️ Voting Phase – 60 seconds</h3>
+        <div id="voteTimer" style="font-size: 2.2rem; font-weight: bold; margin: 15px 0; color: #f39c12;">
+          60
+        </div>
+        <div id="voteButtons" class="vote-container"></div>
+        <div style="margin: 20px 0;">
+          <button id="skipVoteBtn" class="skip-btn">Skip / Abstain</button>
+        </div>
+        <div id="voteSummary" style="margin-top: 20px; font-size: 1.1rem;"></div>
+      </div>
+
+      <div id="waitingScreen" style="display:none; margin: 30px 0; padding: 20px; background:#222; border-radius:12px;">
+        <h3 style="color:#f39c12;">Waiting for Next Round</h3>
+        <p id="waitingMessage">Round finished. Waiting for everyone...</p>
+        
+        <div style="margin: 20px 0;">
+          <button id="readyBtn" style="padding:14px 28px; font-size:1.2rem; background:#27ae60; color:white; border:none; border-radius:8px; cursor:pointer;">
+            I'm Ready ✓
+          </button>
+        </div>
+
+        <div id="readyStatus" style="font-size:1.1rem; margin:15px 0;"></div>
+
+        <button id="forceNextBtn" style="display:none; padding:12px 24px; font-size:1.1rem; background:#e67e22; color:white; border:none; border-radius:8px; cursor:pointer; margin-top:15px;">
+          Force Start Next Round (Host)
+        </button>
+      </div>
+
+      <button id="startBtn" style="display:none">Start Game</button>
+      <button id="nextRoundBtn" style="display:none; padding:12px 24px; font-size:1.2rem; background:#27ae60; color:white; border:none; border-radius:8px; margin:20px auto; cursor:pointer;">
+        → Start Next Round ←
+      </button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Who's the Spy?</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="container">
+    <h1>Who's the Spy?</h1>
+
+    <!-- Lobby Screen -->
+    <div id="lobby">
+      <button id="createBtn">Create Room</button>
+      <input id="roomCode" placeholder="Enter Room Code" maxlength="8" />
+      <input id="playerName" placeholder="Your Name" value="Player" maxlength="15" />
+      <button id="joinBtn">Join Room</button>
+    </div>
+
+    <!-- Main Game Screen -->
+    <div id="game" style="display:none">
+      <div id="info">
+        <p id="status">Waiting for players...</p>
+        <p id="yourItem" style="font-size: 1.3em; margin: 15px 0; min-height: 60px;"></p>
+        <div id="players"></div>
+        <div id="scores"></div>
+      </div>
+
+      <!-- Chat Area (Describing Phase) -->
+      <div id="chatArea" style="display:none">
+        <div id="messages"></div>
+        <div style="display:flex; gap:10px;">
+          <input id="message" placeholder="Describe your item..." autocomplete="off" />
+          <button id="send">Send</button>
+        </div>
+      </div>
+
+      <!-- Voting Phase -->
+      <div id="voting" style="display:none; margin: 20px 0;">
+        <h3 style="color: #e74c3c;">🕵️‍♂️ Voting Phase – 60 seconds</h3>
+        
+        <div id="voteTimer" style="font-size: 2.2rem; font-weight: bold; margin: 15px 0; color: #f39c12;">
+          60
+        </div>
+
+        <div id="voteButtons" class="vote-container"></div>
+
+        <div style="margin: 20px 0;">
+          <button id="skipVoteBtn" class="skip-btn">Skip / Abstain</button>
+        </div>
+
+        <div id="voteSummary" style="margin-top: 20px; font-size: 1.1rem; min-height: 60px;"></div>
+      </div>
+
+      <!-- Waiting for Next Round Screen -->
+      <div id="waitingScreen" style="display:none; margin: 30px 0; padding: 20px; background:#222; border-radius:12px;">
+        <h3 style="color:#f39c12;">Waiting for Next Round</h3>
+        <p id="waitingMessage">Round finished. Waiting for everyone...</p>
+        
+        <div style="margin: 20px 0;">
+          <button id="readyBtn" style="padding:14px 28px; font-size:1.2rem; background:#27ae60; color:white; border:none; border-radius:8px; cursor:pointer;">
+            I'm Ready ✓
+          </button>
+        </div>
+
+        <div id="readyStatus" style="font-size:1.1rem; margin:15px 0;"></div>
+
+        <button id="forceNextBtn" style="display:none; padding:12px 24px; font-size:1.1rem; background:#e67e22; color:white; border:none; border-radius:8px; cursor:pointer; margin-top:15px;">
+          Force Start Next Round (Host)
+        </button>
+      </div>
+
+      <!-- Control Buttons -->
+      <button id="startBtn" style="display:none; padding:12px 24px; font-size:1.2rem; background:#3498db; color:white; border:none; border-radius:8px; cursor:pointer;">
+        Start Game
+      </button>
+
+      <button id="nextRoundBtn" style="display:none; padding:12px 24px; font-size:1.2rem; background:#27ae60; color:white; border:none; border-radius:8px; margin:20px auto; cursor:pointer;">
+        → Start Next Round ←
+      </button>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
