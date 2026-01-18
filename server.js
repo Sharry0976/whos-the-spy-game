@@ -717,6 +717,11 @@ const io = new Server(server, {
 
 app.use(express.static('public'));
 
+// Serve index.html for all non-API routes
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/public/index.html');
+});
+
 const rooms = {};
 
 function generateCode() {
