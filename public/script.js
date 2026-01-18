@@ -616,7 +616,7 @@
 // }
 
 // const socket = io();
-const BACKEND_URL = 'https://whos-the-spy-backend.onrender.com'; // ← change this
+const BACKEND_URL = 'https://whos-the-spy-game.onrender.com/'; // ← change this
 const socket = io(BACKEND_URL, {
   transports: ['websocket', 'polling'],
   reconnection: true,
