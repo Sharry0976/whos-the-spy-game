@@ -615,7 +615,13 @@
 //   });
 // }
 
-const socket = io();
+// const socket = io();
+const BACKEND_URL = 'https://whos-the-spy-backend.onrender.com'; // ← change this
+const socket = io(BACKEND_URL, {
+  transports: ['websocket', 'polling'],
+  reconnection: true,
+  reconnectionAttempts: 10
+});
 
 let myRoom = null;
 let myId = null;
